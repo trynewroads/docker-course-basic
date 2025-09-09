@@ -120,6 +120,18 @@ style: |
     place-content: center;
     max-height: 80%;
   }
+
+  .summary{
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 25px;
+    background-color: rgb(255 255 255 / 10%);
+  }
+
+  .summary p {
+    font-size: 18px;
+    padding-bottom: 8px;
+  }
 ---
 
   <!-- _paginate: skip -->
@@ -137,35 +149,110 @@ style: |
 
 ---
 
-**Objetivo de la práctica:**
+## Objetivo de la práctica
+
 Aprender a gestionar contenedores Docker mediante la creación, modificación y manipulación de un contenedor NGINX.
-
-**Pasos a seguir:**
-
-- Limpiar cualquier recurso previo (contenedores, imágenes, volúmenes, redes).
-- Crear un contenedor NGINX que sirva contenido web en un puerto aleatorio.
-- Acceder al contenedor para modificar el archivo `index.html` y personalizar el contenido.
-- Copiar el contenido de la carpeta HTML del contenedor al sistema host.
-- Crear un nuevo contenedor NGINX utilizando la carpeta copiada como su contenido web.
 
 ---
 
-Para comenzar, es importante limpiar cualquier recurso que se haya creado anteriormente. Usa los siguientes comandos para eliminar contenedores, imágenes, volúmenes y redes que ya no son necesarios:
+### Pasos a seguir
 
-```
+<details>
+<summary>
+1. Limpiar cualquier recurso previo (contenedores, imágenes, volúmenes, redes).
+</summary>
+<div class="summary">
+
+```bash
 docker container prune
 docker image prune
 docker volume prune
 docker network prune
 ```
 
+</div>
+
+</details>
+
+---
+
+<details>
+<summary>
+2. Crear un contenedor NGINX que sirva contenido web en un puerto aleatorio.
+</summary>
+<div class="summary">
+
+```bash
+docker run -d --name nginx-practica -P nginx
+```
+
+</div>
+</details>
+
+---
+
+<details>
+<summary>
+3. Acceder al contenedor para modificar el archivo `index.html` y personalizar el contenido.
+
+</summary>
+<div class="summary">
+
+<p>Una vez que el contenedor esté en ejecución, accede al contenedor y edita el archivo index.html para modificar el contenido, como los elementos `h1` o `p`. Puedes hacerlo con los siguientes comandos:</p>
+
+```bash
+docker exec -it nginx-practica /bin/bash
+cd /usr/share/nginx/html
+nano index.html
+```
+
+</div>
+
+</details>
+
+---
+
+<details>
+<summary>
+4. Copiar el contenido de la carpeta HTML del contenedor al sistema host.
+</summary>
+<div class="summary">
+<p>
+Una vez que hayas realizado los cambios, copia el contenido del directorio HTML del contenedor a tu máquina host con el siguiente comando:
+</p>
+
+```bash
+docker cp nginx-practica:/usr/share/nginx/html .
+```
+
+<p>
+Una vez guardados los cambios si accedemos al servidor desde nuestro navegador web veremos los cambios reflejados.
+</p>
+
+```
+docker ps # Para ver el puerto asociado
+```
+
+<p>
+Acceder localhost:<puerto> en nuestro navegador.
+</p>
+
+</div>
+</details>
+
+---
+
+- Crear un nuevo contenedor NGINX utilizando la carpeta copiada como su contenido web.
+
 ---
 
 A continuación, vamos a crear un contenedor con NGINX como proxy. Este contenedor se ejecutará en un puerto aleatorio y permitirá acceder al contenido web que servirá.
 
 ```
+
 docker run -d --name nginx-practica -P nginx
 docker ps
+
 ```
 
 - Utiliza el comando `docker ps` para ver el contenedor en ejecución y el puerto asignado.
@@ -175,11 +262,13 @@ docker ps
 Para modificar el contenido del contenedor, accede a su terminal de comandos. A continuación, instala `nano` para editar el archivo `index.html`:
 
 ```
+
 docker exec -it nginx-practica /bin/bash
 cd /usr/share/nginx/html
 apt update
 apt install -y nano
 nano index.html
+
 ```
 
 ---
@@ -193,7 +282,9 @@ nano index.html
 Para copiar el contenido de la carpeta HTML del contenedor al host, utiliza el siguiente comando:
 
 ```
+
 docker cp nginx-practica:/usr/share/nginx/html .
+
 ```
 
 - Este comando copia el contenido de la carpeta `/usr/share/nginx/html` del contenedor `nginx-practica` a la ubicación actual del host.
@@ -205,10 +296,16 @@ docker cp nginx-practica:/usr/share/nginx/html .
 Finalmente, vamos a crear un nuevo contenedor NGINX que utilice la carpeta copiada anteriormente como su contenido web. Montaremos la carpeta en el contenedor.
 
 ```
+
 docker run --name nginx-practica -v $(pwd):/usr/share/nginx/html -P nginx
 docker ps
+
 ```
 
 - La carpeta del host queda sincronizada con el contenedor, reflejando cualquier cambio en tiempo real (como las ediciones en `index.html`).
 
 **Nota**: En sistemas Unix, `$(pwd)` representa el directorio actual. En PowerShell de Windows, usa `${PWD}` en su lugar.
+
+```
+
+```

@@ -153,3 +153,4 @@ El objetivo de este ejercicio es desplegar ambos contenedores y configurarlos pa
 
 - Usuario de la interfaz es `admin` y su contraseña es `12345678`
 - El fichero de configuración de ningx puedes obtenerlo de [nginx.conf](https://raw.githubusercontent.com/trynewroads/course-frontend/refs/heads/main/nginx.conf)
+- Al montar directorios pueden aparecer problemas de permisos de ficheros, para ello se puede usar `--user $(id -u):$(id -g)` para que el contenedor utilice el mismo usuario del host.

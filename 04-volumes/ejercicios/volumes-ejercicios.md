@@ -118,42 +118,73 @@ style: |
 
 ---
 
-# Ejercicio: Persistencia de Datos con Volúmenes
-
-- Partiendo del ejercicio de redes donde se conectan las aplicaciones `todo-backend` y `todo-client`, realiza lo siguiente:
-  - Crea un volumen nombrado para almacenar la base de datos de MongoDB.
-  - Inserta algunas entradas de ejemplo en la base de datos de MongoDB a través del backend.
-  - Detén y elimina el contenedor de MongoDB.
-  - Crea un nuevo contenedor de MongoDB usando el mismo volumen nombrado.
-  - Verifica que los datos insertados anteriormente siguen estando presentes en la base de datos.
+# Ejercicio: Volúmenes
 
 ---
 
-# Ejercicio 1: Persistencia de Datos con Volúmenes
-
-Partiendo del ejercicio de redes donde se conectan las aplicaciones `todo-backend` y `todo-client`, realiza lo siguiente:
-
-1. Crea un volumen nombrado para almacenar la base de datos de MongoDB y añade dicho volumen al contenedor.
-2. Inserta algunas entradas de ejemplo en la base de datos de MongoDB a través del backend.
-3. Elimina el contenedor de MongoDB.
-4. Crea un nuevo contenedor de MongoDB usando el mismo volumen nombrado.
-5. Verifica que los datos insertados anteriormente siguen estando presentes en la base de datos.
+Cada uno de los ejericios parten del ejercicio de redes donde se conectan las aplicaciones `course-backend` y `course-frontend`,
 
 ---
 
-# Ejercicio 2: Persistencia de Datos con Volúmenes
+## Ejercicio 1: Anonymous
 
-Partiendo del ejercicio anterior:
+1. Crea una nueva instancia de postgres con un volumen anónimo e inspecciona la información de los volúmenes.
+
+2. Inserta algunas entradas de ejemplo en la base de datos de postgres.
+
+3. Elimina el contenedor de postgres y crea uno nuevo.
+
+---
+
+## Ejercicio 2: Named Volumes
+
+1. Crea un nuevo contenedor de postgres usando un volumen de nombrado.
+
+2. Inserta algunas entradas de ejemplo en la base de datos de postgres.
+
+3. Elimina el contenedor de postgres y crea uno nuevo.
+
+---
+
+# Ejercicio 3: Bind Mounts
 
 1. Haz una copia del volumen en un directorio local.
-2. Creamos una nueva máquina de Mongo con un volumen de tipo `bind`.
+
+2. Creamos una nueva máquina de postgres con un volumen de tipo `bind`.
+
 3. Verifica que ambas bases de datos tengan los mismos datos.
 
 ---
 
-# Ejercicio 3: Persistencia de Datos con Volúmenes
+## Notas
 
-1. Crea una nueva instancia de Mongo con un volumen anónimo e inspecciona la información de los volúmenes.
-2. Inserta algunas entradas de ejemplo en la base de datos de MongoDB.
-3. Detén y borra el contenedor.
-4. Recupera los datos del volumen e intenta montarlos en otro contenedor.
+Para la realización de estos ejercicios es necesario modificar el backend para que use una base de datos. Para esto tenemos que configurar las siguiente variables al iniciar el contenedor.
+
+```bash
+USE_DB=false
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=todo_user
+DB_PASS=todo_pass
+DB_NAME=todo_db
+```
+
+---
+
+```bash
+docker run
+-d  # Segundo plano
+-p 3000:3000 # Conectar el puerto 3000 del host con el 3000 del contenedor
+--network course-network # Asignar la red
+--hostname course-backend # Nombre en la red
+--name cb # Nombre del contendor
+-e USE_DB=true # Variables de entorno
+-e DB_HOST=course-database
+-e DB_PORT=5432
+-e DB_USER=postgres
+-e DB_PASS=12345678
+-e DB_NAME=postgres
+ghcr.io/trynewroads/course-backend:1.0.0 # imagen usada
+
+docker run -d -p 3000:3000 --network course-network  --hostname course-backend  --name cb -e USE_DB=true -e DB_HOST=course-database -e DB_PORT=5432 -e DB_USER=postgres -e DB_PASS=12345678 -e DB_NAME=postgres ghcr.io/trynewroads/course-backend:1.0.0
+```

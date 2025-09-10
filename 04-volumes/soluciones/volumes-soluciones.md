@@ -175,9 +175,39 @@ docker inspect course-network
 
 2. Inserta algunas entradas de ejemplo en la base de datos de postgres.
 
+<div class="resolve">
+
+Comprobar que los datos se han guardado en la base de datos
+
+```bash
+docker exec -it cdb psql -U postgres -d postgres -c "SELECT * FROM task;"
+```
+
+</div>
+
 ---
 
 3. Elimina el contenedor de postgres y crea uno nuevo.
+
+<div class="resolve">
+
+Eliminamos la máquina en caliente, este paso puede hacer que el backend deje de funcionar, por lo que tenemos que reiniciar.
+
+```bash
+docker rm -f cdb
+
+docker restart cb
+```
+
+Creamos de nuevo la máquina
+
+```bash
+docker run --name cdb -e POSTGRES_PASSWORD=12345678 --hostname course-database --network course-network -d postgres
+```
+
+Repetimos el punto 2 para verificar que están los datos.
+
+</div>
 
 ---
 
@@ -185,9 +215,57 @@ docker inspect course-network
 
 1. Crea un nuevo contenedor de postgres usando un volumen de nombrado.
 
+<div class="resolve">
+
+Creamos el volume
+
+```bash
+docker volume create postgress-data
+```
+
+Comprobar que los datos se han guardado en la base de datos
+
+```bash
+docker run --name cdb -e POSTGRES_PASSWORD=12345678 --hostname course-database --network course-network -d  -v postgress-data:/var/lib/postgresql/data postgres
+```
+
+</div>
+
 2. Inserta algunas entradas de ejemplo en la base de datos de postgres.
 
+<div class="resolve">
+
+Comprobar que los datos se han guardado en la base de datos
+
+```bash
+docker exec -it cdb psql -U postgres -d postgres -c "SELECT * FROM task;"
+```
+
+</div>
+
 3. Elimina el contenedor de postgres y crea uno nuevo.
+
+<div class="resolve">
+
+Eliminamos el contenedor
+
+```bash
+docker rm -f cdb
+```
+
+Creamos otro de nuevo pero usando el mismo volume
+
+```bash
+docker run --name cdb -e POSTGRES_PASSWORD=12345678 --hostname course-database --network course-network -d  -v postgress-data:/var/lib/postgresql/data postgres
+```
+
+Comprobar que los datos siguen
+
+```bash
+docker exec -it cdb psql -U postgres -d postgres -c "SELECT * FROM task;"
+```
+
+</div>
 
 ---
 

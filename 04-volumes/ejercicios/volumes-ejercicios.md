@@ -158,7 +158,9 @@ Cada uno de los ejericios parten del ejercicio de redes donde se conectan las ap
 
 ## Notas
 
-Para la realización de estos ejercicios es necesario modificar el backend para que use una base de datos. Para esto tenemos que configurar las siguiente variables al iniciar el contenedor.
+- El volume de datos para postgress se encuentra en el siguiente directorio: `/var/lib/postgresql/data`
+
+- Para la realización de estos ejercicios es necesario modificar el backend para que use una base de datos. Para esto tenemos que configurar las siguiente variables al iniciar el contenedor.
 
 ```bash
 USE_DB=false
@@ -185,6 +187,4 @@ docker run
 -e DB_PASS=12345678
 -e DB_NAME=postgres
 ghcr.io/trynewroads/course-backend:1.0.0 # imagen usada
-
-docker run -d -p 3000:3000 --network course-network  --hostname course-backend  --name cb -e USE_DB=true -e DB_HOST=course-database -e DB_PORT=5432 -e DB_USER=postgres -e DB_PASS=12345678 -e DB_NAME=postgres ghcr.io/trynewroads/course-backend:1.0.0
 ```

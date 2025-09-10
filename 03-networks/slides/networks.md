@@ -221,12 +221,12 @@ style: |
 
 **Comandos de Ejemplo:**
 
-```
-docker network create --subnet 172.20.0.0/16 my_network<br>
-docker network create --driver bridge --subnet 172.19.0.0/16 my_network_2<br>
-docker network create my_network_3<br>
-docker network create --subnet 172.20.0.0/16 my_network_4<br>
-docker network inspect &lt;NETWORK_NAME|NETWORK_ID&gt;
+```bash
+docker network create --subnet 172.20.0.0/16 my_network
+docker network create --driver bridge --subnet 172.19.0.0/16 my_network_2
+docker network create my_network_3
+docker network create --subnet 172.20.0.0/16 my_network_4
+docker network inspect NETWORK_NAME|NETWORK_ID
 ```
 
 ---
@@ -239,7 +239,7 @@ docker network inspect &lt;NETWORK_NAME|NETWORK_ID&gt;
 
 **Comando de Ejemplo:**
 
-```
+```bash
 docker run --network host -d nginx
 ```
 
@@ -252,8 +252,8 @@ docker run --network host -d nginx
 
 **Comando de Ejemplo:**
 
-```
-docker run --network none -d busybox top<br>docker exec -it &lt;container_id&gt; ping google.com
+```bash
+docker run --network none -d busybox top docker exec -it container_id ping google.com
 ```
 
 ---

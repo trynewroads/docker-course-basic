@@ -107,7 +107,19 @@ style: |
   }
 
   tr {
-    background: transparent!important
+    background: transparent!important;
+  }
+
+  .container-center {
+    display: flex;
+    place-content: center;
+  }
+
+  .container-image {
+    gap: 1rem;
+    display: flex;
+    place-content: center;
+    max-height: 80%;
   }
 
   .resolve{
@@ -232,6 +244,16 @@ docker inspect course-network
 
 ---
 
+<div class="resolve">
+Acceder servidor <a href=http://localhost:3000/docs>http://localhost:3000/docs</a>
+
+</div>
+  <div class="container-image ">
+    <img src=../../images/servidor.png>
+  </div>
+
+---
+
 3. Inicia un contenedor basado en la imagen `course-frontend` y conéctalo también a la red `course-network`.
 
 <div class="resolve small" >
@@ -297,12 +319,23 @@ docker inspect course-network
 
 ---
 
+<div class="resolve">
+Acceder web <a href=http://localhost>http://localhost</a> con el usuario `admin` y contraseña `12345678`
+
+</div>
+  <div class="container-image">
+    <img src=../../images/crear-tarea.png>
+    <img src=../../images/listado-tareas.png>
+  </div>
+
+---
+
 4. Asegúrate de que la aplicación frontend pueda acceder al backend a través del nombre del servicio (`course-backend`) en lugar de una dirección IP.
 
 <div class="resolve">
 
 - Usuario `admin`, contraseña: `12345678`
-- Acceder servidor [http://localhost:3000/api](http://localhost:3000/api)
+- Acceder servidor [http://localhost:3000/docs](http://localhost:3000/docs)
 - Acceder cliente [http://localhost:80](http://localhost:80)
 - Crear una tarea
 - Ver el listado de tareas

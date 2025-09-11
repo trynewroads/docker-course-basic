@@ -188,3 +188,7 @@ docker run
 -e DB_NAME=postgres
 ghcr.io/trynewroads/course-backend:1.0.0 # imagen usada
 ```
+
+---
+
+Al finalizar los ejercicios es recomendable volver al estado del ejercicio 2, con la base de datos en un disco nombrado.

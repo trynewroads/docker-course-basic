@@ -231,6 +231,8 @@ docker run --name cdb -e POSTGRES_PASSWORD=12345678 --hostname course-database -
 
 </div>
 
+---
+
 2. Inserta algunas entradas de ejemplo en la base de datos de postgres.
 
 <div class="resolve">
@@ -242,6 +244,8 @@ docker exec -it cdb psql -U postgres -d postgres -c "SELECT * FROM task;"
 ```
 
 </div>
+
+---
 
 3. Elimina el contenedor de postgres y crea uno nuevo.
 

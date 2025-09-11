@@ -160,7 +160,7 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 ---
 
-2. Configurar el servicio `postgres`
+2. Configurar el servicio `backend`
 
    ```bash
    docker run -d \
@@ -170,14 +170,27 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
    --name ccb \
    -e USE_DB=false \
    ghcr.io/trynewroads/course-backend:1.0.0
-
    ```
 
 ---
 
 3. Levantar el `compose`
 
+<div class="resolve">
+
+```bash
+docker compose -f 06-compose/soluciones/compose.yml up -d
+
+docker compose -f ./06-compose/soluciones/compose.yml ps
+```
+
+</div>
+
 4. Comprobar que el servicio.
+
+<div class="resolve">
+   Acceder al <a  href="http://localhost:3005/docs">servidor</a>
+</div>
 
 ---
 
@@ -187,7 +200,7 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 ---
 
-2. Configurar el servicio `postgres`
+2. Configurar el servicio `frontend`
 
    ```bash
    docker run \
@@ -204,7 +217,21 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 3. Levantar el `compose`
 
+<div class="resolve">
+
+```bash
+docker compose -f 06-compose/soluciones/compose.yml up -d
+
+docker compose -f ./06-compose/soluciones/compose.yml ps
+```
+
+</div>
+
 4. Comprobar que el servicio.
+
+<div class="resolve">
+   Acceder al <a  href="http://localhost:8080">Cliente</a>
+</div>
 
 ---
 
@@ -219,7 +246,7 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
    ```bash
    docker run
    -d
-   --name cdb
+   --name ccdb
    -e POSTGRES_PASSWORD=12345678
    --hostname course-database
    --network course-network
@@ -230,4 +257,110 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 3. Levantar el `compose`
 
+<div class="resolve">
+
+```bash
+docker compose -f 06-compose/soluciones/compose.yml up -d
+
+docker compose -f ./06-compose/soluciones/compose.yml ps
+```
+
+</div>
+
+---
+
 4. Comprobar que el servicio.
+
+<div class="resolve">
+
+```bash
+docker exec -it ccdb psql -U postgres -d postgres -c "SELECT * FROM task;"
+```
+
+</div>
+
+---
+
+# Ejercicio 4: Mejorar compose
+
+1. Establecer redes independientes para aislar los servicios que se comuniquen entre ellos.
+
+<div class="resolve small">
+
+```yaml
+course-compose-backend:
+  networks:
+    - course-compose-back
+    - course-compose-front
+
+course-compose-frontend:
+  networks:
+    - course-compose-front
+
+course-compose-database:
+  networks:
+    - course-compose-back
+
+networks:
+  course-compose-back:
+    driver: bridge
+
+  course-compose-front:
+    driver: bridge
+```
+
+</div>
+
+---
+
+2. Establecer dependencia entres los servicios para que se inicien en orden (`depends_on`)
+
+<div class="resolve">
+
+```yaml
+course-compose-backend:
+  depends_on:
+    - course-compose-database
+
+course-compose-frontend:
+  depends_on:
+    - course-compose-backend
+```
+
+</div>
+
+---
+
+3. Eliminar las exposición de puertos no necesarios (`puerto de backend`)
+
+<div class="resolve">
+
+```yaml
+course-compose-backend:
+  #port:
+  #  - 3005:3000
+```
+
+</div>
+
+---
+
+4. Limpiar sistema
+
+<div class="resolve">
+
+Probamos el compose que funciona con los cambios
+
+```bash
+docker compose -f ./06-compose/soluciones/4.compose.yml up -d
+docker compose -f ./06-compose/soluciones/4.compose.yml ps
+```
+
+Comprobamos si podemos acceder al <a href="http://localhost:8080">Cliente</a>, que no podemos acceder al <a href="http://localhost:3005/docs">Servidor</a>.
+
+```bash
+docker compose -f ./06-compose/soluciones/4.compose.yml down --volumes
+
+```
+
+</div>

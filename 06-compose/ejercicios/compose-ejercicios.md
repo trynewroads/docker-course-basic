@@ -160,7 +160,7 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 ---
 
-2. Configurar el servicio `postgres`
+2. Configurar el servicio `backend`
 
    ```bash
    docker run -d \
@@ -187,7 +187,7 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 
 ---
 
-2. Configurar el servicio `postgres`
+2. Configurar el servicio `frontend`
 
    ```bash
    docker run \
@@ -231,3 +231,13 @@ Crear la estructura que llevamos usando hasta ahora pero en formato `compose`.
 3. Levantar el `compose`
 
 4. Comprobar que el servicio.
+
+# Ejercicio 4: Mejorar compose
+
+1. Establecer redes independientes para aislar los servicios que se comuniquen entre ellos. (`Crear dos redes course-compose-public y course-compose-private`)
+
+2. Establecer dependencia entres los servicios para que se inicien en orden (`depends_on`)
+
+3. Eliminar las exposición de puertos no necesarios (`puerto de backend`)
+
+4. Limpiar sistema

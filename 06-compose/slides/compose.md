@@ -174,6 +174,24 @@ Es una herramienta para definir y ejecutar aplicaciones de múltiples contenedor
 
 ---
 
+## Configuración compose
+
+En un archivo `compose.yaml`, las claves principales son:
+
+- **services**: Define los servicios (contenedores) que forman tu aplicación. Cada servicio puede tener su propia imagen, variables de entorno, puertos, volúmenes, etc.
+- **image**: Especifica la imagen de Docker que se usará para crear el contenedor del servicio. Puede ser una imagen pública, privada o una construida localmente.
+- **environment**: Permite establecer variables de entorno para los servicios.
+
+---
+
+- **container_name**: Permite asignar un nombre personalizado al contenedor que se crea para el servicio, facilitando
+- **ports**: Expone y mapea puertos del contenedor al host.
+- **depends_on**: Indica dependencias de arranque entre servicios.
+- **volumes**: Define volúmenes persistentes para almacenar datos fuera del ciclo de vida de los contenedores.
+- **networks**: Permite definir redes personalizadas para que los servicios se comuniquen entre sí de forma aislada o con el exterior.
+
+---
+
 ## Comandos Comunes de Docker Compose
 
 `docker compose` ([referencia](https://docs.docker.com/reference/cli/docker/compose/)) para gestionar aplicaciones multicontenedor.

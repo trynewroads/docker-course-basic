@@ -1,0 +1,15 @@
+services:
+  course-compose-backend:
+    image: ghcr.io/trynewroads/course-backend:1.0.0
+    container_name: ccb
+    hostname: course-compose-backend
+    networks:
+      - course-compose-network
+    ports:
+      - "3005:3000"
+    environment:
+      - USE_DB=false
+
+networks:
+  course-compose-network:
+    driver: bridge

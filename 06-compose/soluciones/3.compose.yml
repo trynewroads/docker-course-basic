@@ -1,0 +1,14 @@
+services:
+  course-compose-database:
+    image: postgres
+    container_name: ccdb
+    hostname: course-database
+    environment:
+      - POSTGRES_PASSWORD=12345678
+    networks:
+      - course-compose-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,46 @@
+services:
+  course-compose-backend:
+    image: ghcr.io/trynewroads/course-backend:1.0.0
+    container_name: ccb
+    hostname: course-compose-backend
+    networks:
+      - course-compose-network
+    ports:
+      - "3005:3000"
+    environment:
+      - USE_DB=true
+      - DB_HOST=course-compose-database
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=12345678
+      - DB_NAME=postgres
+
+  course-compose-frontend:
+    image: ghcr.io/trynewroads/course-frontend:1.0.0
+    container_name: ccf
+    hostname: course-compose-frontend
+    environment:
+      - BACKEND_HOST=ccb
+      - BACKEND_PORT=3000
+    networks:
+      - course-compose-network
+    ports:
+      - "8080:80"
+
+  course-compose-database:
+    image: postgres
+    container_name: ccdb
+    hostname: course-database
+    environment:
+      - POSTGRES_PASSWORD=12345678
+    networks:
+      - course-compose-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  course-compose-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

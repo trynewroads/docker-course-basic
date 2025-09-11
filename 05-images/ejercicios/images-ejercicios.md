@@ -146,7 +146,7 @@ style: |
 
 ---
 
-# Ejercicio 1: Crear una Imagen Docker
+## Ejercicio 1: Crear una Imagen Docker para producción
 
 Crear una imagen Docker para la aplicación [backend](https://github.com/trynewroads/course-backend)
 
@@ -173,8 +173,27 @@ Crear una imagen Docker para la aplicación [backend](https://github.com/trynewr
 
 ---
 
-# Ejercicio 1: Crear una Imagen Docker para el Entorno de Desarrollo de una Aplicación NestJS (Continuación)
+## Ejercicio 2: Crea una imagen de docker para desarrollo
 
-9. Genera la imagen con un nombre.
-10. Inicia un contenedor con la imagen creada. (Comprobar que funciona y es accesible)
-11. Inicia otro contenedor con un bind mount del `src`. (Comprobar que las modificaciones realizadas actualizan el backend, `main.ts` modificar textos del config)
+Crear una imagen Docker para la aplicación [backend](https://github.com/trynewroads/course-backend)
+
+1. Descargar el repositorio
+
+   ```bash
+   git clone git@github.com:trynewroads/course-backend.git
+   ```
+
+2. Crear un archivo `Dockerfile.dev`
+3. Usar `node:20` como imagen base
+4. Establecer un directorio de trabajo (`/app`)
+5. Copiar fichero de dependencias (`package.json`)
+6. Instalar las dependencias (`npm install`)
+
+---
+
+7. Definir [variables](https://github.com/trynewroads/course-backend/tree/main) y configurar puerto (3000)
+8. Copiar todo el contenido
+9. Definir volume (en la carpeta `app`)
+10. Comando para iniciar la aplicación (`npm run start:dev`)
+11. Crear la imagen (`docker build`)
+12. Probar la imagen (`docker run`)

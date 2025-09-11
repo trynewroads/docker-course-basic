@@ -168,7 +168,7 @@ Crear una imagen Docker para la aplicación [backend](https://github.com/trynewr
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 FROM node:20
 ```
 
@@ -180,7 +180,7 @@ FROM node:20
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 WORKDIR /app
 ```
 
@@ -192,7 +192,7 @@ WORKDIR /app
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 COPY package*.json ./
 ```
 
@@ -204,7 +204,7 @@ COPY package*.json ./
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 RUN npm install
 ```
 
@@ -216,7 +216,7 @@ RUN npm install
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 ENV NODE_ENV=production \
 PORT=3000 \
 DEBUG_REQUEST=false \
@@ -236,7 +236,7 @@ EXPOSE 3000
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 COPY . .
 ```
 
@@ -248,7 +248,7 @@ COPY . .
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 RUN npm run build
 ```
 
@@ -260,7 +260,7 @@ RUN npm run build
 
 <div class="resolve">
 
-```yaml
+```dockerfile
 CMD [ "node", "dist/main.js" ]
 ```
 
@@ -322,10 +322,177 @@ docker ps
 
 ---
 
-## Ejercicio 1: Crear una Imagen Docker para el Entorno de Desarrollo de una Aplicación NestJS (Continuación)
+## Ejercicio 2: Crea una imagen de docker para desarrollo
 
-9. Genera la imagen con un nombre.
+Crear una imagen Docker para la aplicación [backend](https://github.com/trynewroads/course-backend)
 
-10. Inicia un contenedor con la imagen creada. (Comprobar que funciona y es accesible)
+1. Descargar el repositorio
 
-11. Inicia otro contenedor con un bind mount del `src`. (Comprobar que las modificaciones realizadas actualizan el backend, `main.ts` modificar textos del config)
+   ```bash
+   git clone git@github.com:trynewroads/course-backend.git
+   ```
+
+---
+
+2. Crear un archivo `Dockerfile.dev`
+
+---
+
+3. Usar `node:20` como imagen base
+
+<div class="resolve">
+
+```dockerfile
+FROM node:20
+```
+
+</div>
+
+---
+
+4. Establecer un directorio de trabajo (`/app`)
+
+<div class="resolve">
+
+```dockerfile
+WORKDIR /app
+```
+
+</div>
+
+---
+
+5. Copiar fichero de dependencias (`package.json`)
+
+<div class="resolve">
+
+```dockerfile
+COPY package*.json ./
+```
+
+</div>
+
+---
+
+6. Instalar las dependencias (`npm install`)
+
+<div class="resolve">
+
+```dockerfile
+RUN npm install
+```
+
+</div>
+
+---
+
+7. Definir [variables](https://github.com/trynewroads/course-backend/tree/main) y configurar puerto (3000)
+
+<div class="resolve">
+
+```dockerfile
+ENV NODE_ENV=production \
+PORT=3000 \
+DEBUG_REQUEST=false \
+ENABLE_AUTH=true \
+DB_HOST=localhost \
+DB_PORT=5432 \
+USE_DB=false
+
+EXPOSE 3000
+```
+
+</div>
+
+---
+
+8. Copiar todo el contenido
+
+<div class="resolve">
+
+```dockerfile
+COPY . .
+```
+
+</div>
+
+---
+
+9. Definir volume (en la carpeta `app`)
+
+<div class="resolve">
+
+```dockerfile
+VOLUME /app
+```
+
+</div>
+
+---
+
+10. Comando para iniciar la aplicación (`npm run start:dev`)
+
+<div class="resolve">
+
+```dockerfile
+CMD [ "npm", "run", "start:dev" ]
+```
+
+</div>
+
+---
+
+11. Crear la imagen (`docker build`)
+
+<div class="resolve">
+
+````bash
+```bash
+docker build -t course-dev-backend -f 05-images/soluciones/Dockerfile.dev ../course-backend/
+
+docker image ls course-dev-backend
+````
+
+</div>
+
+---
+
+12. Probar la imagen (`docker run`)
+
+<div class="resolve">
+
+Con esta imagen tendremos algo parecido a la anterior, pero si modificamos el código dentro del contenedor los cambios se verán reflejados.
+
+```bash
+docker run \
+-d \
+-p 3002:3000 \
+--network course-network \
+--hostname course-dev-backend \
+--name cvb \
+-e USE_DB=false \
+course-dev-backend
+```
+
+</div>
+
+---
+
+<div class="resolve">
+
+Lo que podemos hacer es montar el volumen del host de forma directa y así las modificaciones que se hacen en el host se actualizarán con el contenedor y se verán reflejados de forma inmediata.
+
+```bash
+docker run \
+-d \
+-p 3003:3000 \
+--network course-network \
+--hostname course-dev-backend \
+--name cvvb \
+-v ../course-backend:/app \
+--user $(id -u):$(id -g) \
+-e USE_DB=false \
+course-dev-backend
+```
+
+</div>

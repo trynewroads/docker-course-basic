@@ -1,28 +1,180 @@
 ---
-# ¿Qué es Docker Compose?
+marp: true
+theme: default
+title: Docker Básico
+paginate: true
+size: 16:9
+backgroundColor: #2E2052;
+color: #ffffff;
+footer: Docker Básico
+header: |
+  <div class="logo-start">
+    <img src="../../images/docker-logo-white.png" alt="Logo Docker"  class="logo"/>
+  </div>
+  <div class="logo-end">
+    <img src="../../images/logo_white.png" alt="Logo TNR" class="logo" />
+  </div>
 
-- **Definición**: Docker Compose es una herramienta para definir y ejecutar aplicaciones de múltiples contenedores a partir de un único archivo de configuración YAML.
-- **Ventajas**: Simplifica la gestión de servicios, redes y volúmenes en un solo archivo, facilitando el despliegue de tu stack de aplicaciones de forma eficiente.
-- **Uso**: Con un solo comando, puedes crear y arrancar todos los servicios configurados en el archivo `docker-compose.yml`, ideal para entornos de producción, desarrollo, testing y CI/CD.
-- **Comandos Disponibles**:
-  - Iniciar, detener y reconstruir servicios.
-  - Ver el estado de los servicios en ejecución.
-  - Visualizar logs de los servicios.
-  - Ejecutar comandos puntuales en un servicio.
+style: |
+  section {
+    display:flex;
+  }
+
+  section > h2, h3, h4, h5{
+    border-bottom: 2px solid #2D6BFA;
+    padding-bottom: .3rem;
+  }
+
+  section::after, header, footer {
+    font-weight: 700;
+    color: white;
+  }
+
+  section > header {
+    display: flex;
+    top: 0;
+    width: calc(100% - 60px);
+    background: radial-gradient(30% 100% at 50% 0%, #2D6BFA 0%, rgba(46, 32, 82, 0.00) 100%);
+  }
+
+  .logo-start{
+    flex:1;
+  }
+
+  .logo-end{
+    flex:1;
+    text-align:end;
+    width: auto;
+    height: 30px;
+  }
+
+  .logo {
+    width: auto;
+    height: 30px;
+  }
+
+  .front {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title{
+    font-size:2.5em;
+    margin-bottom:0;
+    padding-bottom:0;
+    
+  }
+
+  .line{
+    width:100%;
+    background-color: #2D6BFA
+  }
+
+  .author{
+    font-size:1.3em;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  .company{
+    font-size:.9em;
+    margin-top: .1em;
+  }
+
+  blockquote{
+    color:white;
+    font-size: 16px;
+    border-color:#2D6BFA;
+    bottom: 70px;
+    left: 30px;
+    position: absolute;
+  }
+
+  a{
+    background-color: rgb(45 107 250 / 30%);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  a > code {
+    background-color: rgb(45 107 250 / 30%);
+  }
+
+
+  code {
+    background-color: rgb(255 255 255 / 30%);
+  }
+
+
+  tr {
+    background: transparent!important;
+  }
+
+  .container-center {
+    display: flex;
+    place-content: center;
+  }
+
+  .container-image {
+    display: flex;
+    place-content: center;
+    max-height: 80%;
+  }
+
+  .resolve{
+    padding: 1rem 1rem .5rem 1rem;
+    margin: 1rem;
+    border-radius: 25px;
+    background-color: rgb(255 255 255 / 10%);
+    font-size: 22px;
+  }
+
+  .normal {
+    font-size: 18px;
+  }
+
+  .small {
+    font-size: 14px;
+  }
+---
+
+  <!-- _paginate: skip -->
+
+  <div class="front">
+    <h1 class="title"> Docker Básico </h1>
+    <hr class="line"/>
+    <p class="author">Arturo Silvelo</p>
+    <p class="company">Try New Roads</p>
+  </div>
 
 ---
 
-# ¿Cómo Funciona Docker Compose?
+# Docker Compose
+
+---
+
+## ¿Qué es Docker Compose?
+
+Es una herramienta para definir y ejecutar aplicaciones de múltiples contenedores a partir de un único archivo de configuración YAML.
+
+- **Ventajas**: Simplifica la gestión de servicios, redes y volúmenes en un solo archivo, facilitando el despliegue de tu stack de aplicaciones de forma eficiente.
+
+---
+
+- **Uso**: Con un solo comando, puedes crear y arrancar todos los servicios configurados en el archivo `docker-compose.yml`, ideal para entornos de producción, desarrollo, testing y CI/CD.
+
+---
+
+## ¿Cómo Funciona Docker Compose?
 
 - Docker Compose utiliza un archivo YAML (`compose.yaml`) para definir la configuración de tu aplicación y sus servicios.
 - Sigue las reglas establecidas por la _Compose Specification_ ([especificación completa](https://docs.docker.com/reference/compose-file/)).
 - También se soportan archivos `docker-compose.yml` para compatibilidad con versiones anteriores.
-- Permite combinar múltiples archivos Compose para definir aplicaciones más complejas.
-- Puedes utilizar fragmentos y extensiones para mantener un archivo eficiente y modular.
 
 ---
 
-# Comandos Comunes de Docker Compose
+## Comandos Comunes de Docker Compose
 
 `docker compose` ([referencia](https://docs.docker.com/reference/cli/docker/compose/)) para gestionar aplicaciones multicontenedor.
 
@@ -35,130 +187,57 @@ Puedes invocar contenedores de manera individual usando `docker compose <command
 
 ---
 
-# Creando un archivo `compose.yaml` básico
+## Creando un archivo `compose.yaml` básico
 
-Crear un contenedor de mongo:
+Creación de un contenedor con `docker run`
+
+<div class="normal">
 
 ```bash
-docker run -d \
-  --name my-mongo-container \
-  --hostname mongodb \
-  -p 27017:27017 \
-  -e MONGO_INITDB_ROOT_USERNAME=admin \
-  -e MONGO_INITDB_ROOT_PASSWORD=secret \
-  -v $(pwd)/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
-  -v mongo-data:/data/db \
-  --network my-network \
-  --restart always \
-  mongo:latest
+docker run \
+-d  \
+-p 3000:3000 \
+--network course-network \
+--hostname course-backend \
+--name cb \
+-e USE_DB=true \
+-e DB_HOST=course-database \
+-e DB_PORT=5432 \
+-e DB_USER=postgres \
+-e DB_PASS=12345678 \
+-e DB_NAME=postgres \
+course-backend
 ```
+
+</div>
 
 ---
 
-# Creando un archivo `compose.yaml` básico
+Convertir la configuración a un compose
 
-Un archivo `compose.yaml` define cómo se deben ejecutar los servicios en Docker Compose.
+<div class="normal">
 
 ```yaml
-version: "3.8" # Versión de Docker Compose
-
 services:
-  database: # Definición del servicio "database"
-    image: mongo:latest # Imagen de Docker para MongoDB
-    container_name: my-mongo-container # Nombre del contenedor
-    hostname: mongodb # Nombre del host dentro del contenedor
-    volumes: # Volúmenes para persistencia de datos
-      - mongo-data:/data/db # Monta un volumen para la base de datos
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro # Script de inicialización (opcional)
-    networks: # Redes a las que se conecta el servicio
-      - my-network
-    ports: # Mapea los puertos del contenedor al host
-      - "27017:27017" # Mapea el puerto 27017 del contenedor al host
-    environment: # Variables de entorno para la configuración de MongoDB
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=secret
-    restart: always # Política de reinicio del contenedor
+  course-backend:
+    image: course-backend
+    container_name: cb
+    hostname: course-backend
+    networks:
+      - course-network
+    ports:
+      - "3000:3000"
+    environment:
+      - USE_DB=true
+      - DB_HOST=course-database
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=12345678
+      - DB_NAME=postgres
 
-networks: # Esta sección crea la red si no existe
-  my-network:
-    driver: bridge
-
-volumes: # Define el volumen para la persistencia
-  mongo-data:
-    driver: local
+networks:
+  course-network:
+    external: true
 ```
 
----
-
-# Ejercicio 1: Crear un Docker Compose para las Aplicaciones Backend y Frontend
-
-**Objetivo:** En este ejercicio, deberás crear un archivo `docker-compose.yml` para levantar tanto la aplicación de **Backend** como la de **Frontend**. La aplicación de **Backend** utilizará una base de datos en memoria.
-
-1. Configuración básica del compose (version, services, networks, volumes)
-2. Añadir Backend: Configuración para usar una base de datos en memoria
-3. Añadir Frontend
-
----
-
-# Ejercicio 2: Usar una base de datos
-
-**Objetivo:** En este ejercicio, deberás editar el archivo `docker-compose.yml` para levantar tanto la aplicación de **Backend** como la de **Frontend**, la **Base de datos** y una **interfaz** para la Base de datos (**mongo-express**).
-
-1. Editar Backend para usar mongo
-2. Añadir Mongo
-3. Añadir Mongo Express
-
----
-
-# Ejercicio 3: ¿Y la seguridad?
-
-**Objetivo:** En este ejercicio, deberás editar el archivo `docker-compose.yml` para securizar la base de datos y las conexiones.
-
-- Mongo: Añadir usuario y contraseña a la base de datos para evitar entrar sin autenticación:
-
-```bash
-MONGO_INITDB_ROOT_USERNAME
-MONGO_INITDB_ROOT_PASSWORD
-```
-
-- Backend: Configurar el backend para acceder con autenticación.
-
-```bash
-mongodb://<user>:<password>@<host>:<port>/<db>?authSource=admin
-```
-
-- Mongo Express: Configurar la interfaz de mongo para acceder con autenticación.
-
-```bash
-mongodb://<user>:<password>@<host>:<port>
-```
-
----
-
-# Ejercicio 4: Más seguridad
-
-**Objetivo:** En este ejercicio, deberás editar el archivo `docker-compose.yml` para permitir solo conexiones a la interfaz mongo desde el host y eliminar los puertos no necesarios
-
-- Mongo: Eliminar puerto
-- Mongo Express
-
-Acceso restringido al host:
-
-```yaml
-ports:
-  - 127.0.0.1:8081:8081
-```
-
-Acceso restringido a la red local:
-
-```yaml
-ports:
-  - <ip_host>:8081:8081
-```
-
-Sin restricción:
-
-```yaml
-ports:
-  - 8081:8081
-```
+</div>

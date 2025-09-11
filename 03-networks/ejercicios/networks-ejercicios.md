@@ -130,32 +130,27 @@ style: |
 
 Tienes dos imágenes Docker disponibles en Docker Hub:
 
-- `silvelo/todo-backend`
-- `silvelo/todo-client`
+- [ghcr.io/trynewroads/course-frontend:latest](https://github.com/trynewroads/course-frontend/pkgs/container/course-frontend)
+- [ghcr.io/trynewroads/course-backend:latest](https://github.com/trynewroads/course-backend/pkgs/container/course-backend)
 
 El objetivo de este ejercicio es desplegar ambos contenedores y configurarlos para que se comuniquen entre sí utilizando una red personalizada en Docker.
 
-1. Crea una red personalizada llamada `todo-network` que permita la comunicación entre los contenedores.
-2. Inicia un contenedor basado en la imagen `silvelo/todo-backend` y conéctalo a la red `todo-network`.
-3. Asegúrate de exponer el puerto `3000` para el backend.
+---
+
+1. Crea una red personalizada llamada `course-network` que permita la comunicación entre los contenedores.
+
+2. Inicia un contenedor basado en la imagen `course-backend`, conéctalo a la red `course-network` ,dale un nombre de host y al contenedor.
+
+3. Inicia un contenedor basado en la imagen `course-frontend` y conéctalo también a la red `course-network`.
+
+   - Cambiar la configuración del ningx para que se conecte al servidor. `Mirar notas`
+
+4. Asegúrate de que la aplicación frontend pueda acceder al backend a través del nombre del servicio (`course-backend`) en lugar de una dirección IP.
 
 ---
 
-4. Inicia un contenedor basado en la imagen `silvelo/todo-client` y conéctalo también a la red `todo-network`.
-5. Asegúrate de que la aplicación frontend pueda acceder al backend a través del nombre del servicio (`todo-backend`) en lugar de una dirección IP.
+## Notas
 
-**Resultado esperado:**
-
-- El backend (`silvelo/todo-backend`) debería estar accesible en la red bajo el nombre `todo-backend`.
-- El frontend (`silvelo/todo-client`) debería poder comunicarse con el backend usando la URL `http://todo-backend:3000`.
-
----
-
-**Extensión del ejercicio:**
-
-Vamos a añadir una base de datos MongoDB y configurar la red para que los servicios tengan permisos específicos.
-
-1. Añade un contenedor basado en la imagen oficial de `mongo`.
-2. El backend debe poder conectarse tanto al cliente como a MongoDB.
-3. El cliente solo puede conectarse al backend, pero no directamente a MongoDB.
-4. MongoDB solo debe ser accesible desde el backend.
+- Usuario de la interfaz es `admin` y su contraseña es `12345678`
+- El fichero de configuración de ningx puedes obtenerlo de [nginx.conf](https://raw.githubusercontent.com/trynewroads/course-frontend/refs/heads/main/nginx.conf)
+- Al montar directorios pueden aparecer problemas de permisos de ficheros, para ello se puede usar `--user $(id -u):$(id -g)` para que el contenedor utilice el mismo usuario del host.

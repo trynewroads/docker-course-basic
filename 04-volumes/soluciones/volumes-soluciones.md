@@ -273,6 +273,55 @@ docker exec -it cdb psql -U postgres -d postgres -c "SELECT * FROM task;"
 
 1. Haz una copia del volumen en un directorio local.
 
+<div class="resolve">
+
+Copiamos el contenido de la base de datos a local.
+
+```bash
+docker cp cdb:/var/lib/postgresql/data .
+```
+
+Esto copia la carpeta de data del contenedor a una carpeta data en el host
+
+</div>
+
+---
+
 2. Creamos una nueva máquina de postgres con un volumen de tipo `bind`.
 
+<div class="resolve">
+
+Eliminamos el contenedor de la base de datos.
+
+```bash
+docker rm -f cdb
+```
+
+Creamos uno nuevo pero usando `bind` para montar el directorio copiado en el paso anterior
+
+```bash
+docker run --name cdb -e POSTGRES_PASSWORD=12345678 --hostname course-database --network course-network -d -v ./data:/var/lib/postgresql/data postgres
+```
+
+</div>
+
+---
+
 3. Verifica que ambas bases de datos tengan los mismos datos.
+<div class="resolve">
+
+Es posible que necesitemos reiniciar el backend
+
+```bash
+docker restart cb
+```
+
+Comprobamos que los datos de la nueva base de datos sean los mismos.
+
+```bash
+docker exec -it cdb psql -U postgres -d postgres -c "SELECT \* FROM task;"
+```
+
+También podemos crear nuevas tareas y comprobar que se añaden
+
+</div>

@@ -14,7 +14,6 @@ header: |
   <div class="logo-end">
     <img src="../../images/logo_white.png" alt="Logo TNR" class="logo" />
   </div>
-
 style: |
   section {
     display:flex;
@@ -106,6 +105,7 @@ style: |
     background-color: rgb(255 255 255 / 30%);
   }
 
+
   tr {
     background: transparent!important;
   }
@@ -119,6 +119,18 @@ style: |
     display: flex;
     place-content: center;
     max-height: 80%;
+  }
+
+  .resolve{
+    padding: 1rem 1rem .5rem 1rem;
+    margin: 1rem;
+    border-radius: 25px;
+    background-color: rgb(255 255 255 / 10%);
+    font-size: 22px;
+  }
+
+  .small {
+    font-size: 14px;
   }
 ---
 

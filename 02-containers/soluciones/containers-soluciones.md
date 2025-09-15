@@ -106,6 +106,7 @@ style: |
     background-color: rgb(255 255 255 / 30%);
   }
 
+
   tr {
     background: transparent!important;
   }
@@ -127,6 +128,10 @@ style: |
     border-radius: 25px;
     background-color: rgb(255 255 255 / 10%);
     font-size: 22px;
+  }
+
+  .small {
+    font-size: 14px;
   }
 ---
 

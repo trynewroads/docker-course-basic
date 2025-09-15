@@ -130,10 +130,6 @@ style: |
     font-size: 22px;
   }
 
-  .normal {
-    font-size: 18px;
-  }
-
   .small {
     font-size: 14px;
   }

@@ -1,0 +1,6 @@
+[submodule "course-backend"]
+	path = course-backend
+	url = https://github.com/trynewroads/course-backend.git
+[submodule "course-frontend"]
+	path = course-frontend
+	url = https://github.com/trynewroads/course-frontend.git

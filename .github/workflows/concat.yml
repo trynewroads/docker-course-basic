@@ -1,0 +1,36 @@
+name: Concatenar Markdowns
+
+on:
+  push:
+    branches:
+      - final
+  pull_request:
+    branches:
+      - final
+
+jobs:
+  concat-markdowns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Dar permisos de ejecución a los scripts
+        run: chmod +x scripts/concat-*.sh
+
+      - name: Concatenar slides
+        run: ./scripts/concat-slides.sh
+
+      - name: Concatenar ejercicios
+        run: ./scripts/concat-ejercicios.sh
+
+      - name: Concatenar soluciones
+        run: ./scripts/concat-soluciones.sh
+
+      - name: Subir cambios si hay modificaciones
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add final/slides/final.md final/ejercicios/final.md final/soluciones/final.md
+          git diff --cached --quiet || git commit -m "Actualiza markdowns concatenados automáticamente"
+          git push

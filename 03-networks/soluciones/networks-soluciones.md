@@ -106,6 +106,7 @@ style: |
     background-color: rgb(255 255 255 / 30%);
   }
 
+
   tr {
     background: transparent!important;
   }
@@ -116,7 +117,6 @@ style: |
   }
 
   .container-image {
-    gap: 1rem;
     display: flex;
     place-content: center;
     max-height: 80%;

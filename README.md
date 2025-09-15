@@ -50,3 +50,19 @@ Empresa: Try New Roads
 
    - Qué es docker compose
    - Configuración
+
+## Clonado del repositorio con submódulos
+
+Este repositorio contiene submódulos (otros repositorios incluidos dentro de carpetas). Para clonar correctamente y tener todo el contenido, sigue una de estas opciones:
+
+**Opción 1: Clonar desde cero (recomendado)**
+
+```bash
+git clone --recurse-submodules git@github.com:trynewroads/docker-course-basic.git
+```
+
+**Opción 2: Si ya has clonado el repositorio sin submódulos**
+
+```bash
+git submodule update --init --recursive
+```

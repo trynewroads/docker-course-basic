@@ -10,6 +10,8 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Esperar para evitar conflicto con concat
+        run: sleep 60
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0

@@ -1,15 +1,15 @@
 ![banner](./images/banner.png)
 
-# Curso Avanzado Docker
+# Curso Docker Básico
 
-Autor: Arturo Silvelo  
-Empresa: Try New Roads
+**Autor:** Arturo Silvelo  
+**Empresa:** Try New Roads
 
 ---
 
-## Índice del curso
+## 📚 Índice del Curso
 
-1. Introducción
+1. **Introducción**
 
    - Docker
    - Virtualización
@@ -17,41 +17,54 @@ Empresa: Try New Roads
    - Instalación
    - Conceptos
 
-2. Contenedores
+2. **Contenedores**
 
    - Comandos básicos
-     - Gestión imágenes
-     - Gestión contenedores
-     - Gestión redes
-     - Gestión volumes
-     - Gestión logs
+     - Gestión de imágenes
+     - Gestión de contenedores
+     - Gestión de redes
+     - Gestión de volúmenes
+     - Gestión de logs
 
-3. Redes
+3. **Redes**
 
    - Qué es una IP
-   - Qué es una mascara de red
+   - Qué es una máscara de red
    - Redes en Docker
-   - Tipo de redes
+   - Tipos de redes
 
-4. Volúmenes
+4. **Volúmenes**
 
-   - Qué es un volume
-   - Tipo de volumes
+   - Qué es un volumen
+   - Tipos de volúmenes
 
-5. Imágenes
+5. **Imágenes**
 
-   - Que es una imagen
+   - Qué es una imagen
    - Dockerfile
    - Instrucciones Dockerfile
    - .dockerignore
    - Crear una imagen
 
-6. Docker Compose
-
-   - Qué es docker compose
+6. **Docker Compose**
+   - Qué es Docker Compose
    - Configuración
 
-## Clonado del repositorio con submódulos
+---
+
+## 📁 Estructura del Repositorio
+
+El repositorio está dividido en ramas, cada una contiene un módulo específico. La rama `final` contiene todos los módulos.
+
+En cada módulo encontrarás tres carpetas:
+
+- **slides**: Temario del módulo
+- **ejercicios**: Ejercicios propuestos
+- **soluciones**: Soluciones de los ejercicios
+
+---
+
+## 🚀 Clonado del Repositorio con Submódulos
 
 Este repositorio contiene submódulos (otros repositorios incluidos dentro de carpetas). Para clonar correctamente y tener todo el contenido, sigue una de estas opciones:
 

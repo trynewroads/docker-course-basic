@@ -122,6 +122,18 @@ style: |
     max-height: 80%;
   }
 
+  .summary{
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 25px;
+    background-color: rgb(255 255 255 / 10%);
+  }
+
+  .summary p {
+    font-size: 18px;
+    padding-bottom: 4px;
+  }
+
   .resolve{
     padding: 1rem 1rem .5rem 1rem;
     margin: 1rem;

@@ -14,6 +14,7 @@ header: |
   <div class="logo-end">
     <img src="../../images/logo_white.png" alt="Logo TNR" class="logo" />
   </div>
+
 style: |
   section {
     display:flex;
